@@ -6,6 +6,18 @@ interface ProviderVmInterface
 {
 
 	/**
+	 * Average time to create & boot a Vm
+	 * @return int seconds
+	 */
+	public static function createDuration();
+
+	/**
+	 * Average time to stop a Vm
+	 * @return int seconds
+	 */
+	public static function destroyDuration();
+
+	/**
 	 * Loads Vm information
 	 * @param Vm $vm
 	 * @return mixed

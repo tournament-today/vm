@@ -368,4 +368,25 @@ class Vm implements ProviderVmInterface
 	{
 		return sleep(1);
 	}
+
+	/**
+	 * Average time to create & boot a Vm
+	 *
+	 * @info actually 1.7 with a test of 300+
+	 * @return int seconds
+	 */
+	public static function createDuration()
+	{
+		return 2;
+	}
+
+	/**
+	 * Average time to stop a Vm
+	 *
+	 * @return int seconds
+	 */
+	public static function destroyDuration()
+	{
+		return 1;
+	}
 }

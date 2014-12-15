@@ -1,5 +1,6 @@
 <?php namespace Syn\Vm;
 
+use Config;
 use Illuminate\Support\ServiceProvider;
 
 class VmServiceProvider extends ServiceProvider {
@@ -27,6 +28,12 @@ class VmServiceProvider extends ServiceProvider {
 		$this -> app -> bind('vm.schedule', function()
 		{
 			return new ScheduledCommands\VmScheduledCommand();
+		});
+		$this -> app -> singleton('vm.instance', function()
+		{
+			$provider = Config::get('vm::provider');
+			$c = "Syn\\Vm\\Providers\\{$provider}\\Vm";
+			return new $c;
 		});
 
 
