@@ -29,14 +29,22 @@ class VmScheduledCommand extends ScheduledCommand
 
 		$this -> info("Starting: {$start}");
 
+		$cup_id = $this->option('cup');
+		$query = Vm::query();
+		if($cup_id)
+			$query->where('cup_id', $cup_id);
+
+		$query_duplicate = clone $query;
+
 		if($this->option('instantiate') || !count($this->getOptions()))
-			$vms = Vm::whereNull('deploying_at') -> get();
+			$vms = $query_duplicate->whereNull('deploying_at') -> get();
 		else
 			$vms = new Collection();
 
+		$query_duplicate = clone $query;
 		if($this->option('destroy') || !count($this->getOptions()))
 			// TODO: Use different selection!
-			$tearDown = Vm::whereNull('destroyed_at') -> whereNotNull('vm_id') -> get();
+			$tearDown = $query_duplicate->whereNull('destroyed_at') -> whereNotNull('vm_id') -> get();
 		else
 			$tearDown = new Collection();
 
@@ -211,6 +219,7 @@ class VmScheduledCommand extends ScheduledCommand
 		return array(
 			array('instantiate', null, InputOption::VALUE_NONE, 'Only instantiate vms', null),
 			array('destroy', null, InputOption::VALUE_NONE, 'Only destroy vms', null),
+			array('cup', null, InputOption::VALUE_OPTIONAL, 'Only service vms for set cup', null),
 		);
 	}
 }
